@@ -1,23 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct stud
 {
       int id;
       int phone;
       char name[20],add[20];
-}s;
+};
 
 struct book
 {
+	
       int id;
       int price;
       char title[20],aut[20],dob[13];
-}b;
+};
 
 void main()
 {
 	int x;
-	printf("Enter x:: \n 1.Register Friend\n 2.Register Book \n 3.Display Friend\n4. Display Book\n\n ");
+	printf("\n\nCHOOSE:: \n 1.Register Friend\n 2.Register Book \n 3.Display Friend\n 4.Display Book\n\n ");
 	scanf("%d",&x);
 	
 	switch (x) 
@@ -25,40 +27,45 @@ void main()
        case 1: printf("Register-friend\n");
 				r_friend();
                break; 
-       case 3: printf("Display-Friend"); 
+       case 3: printf("Display-Friend\n"); 
 				d_friend();
                 break; 
-       case 2: printf("Choice is 3"); 
+       case 2: printf("Choice is 3\n"); 
        			r_book();
                break; 
-    	case 4: printf("Choice is 4"); 
+    	case 4: printf("Choice is 4\n"); 
        			d_book();
                break; 
                
-    	case 0: printf("EXITING..."); 
-       			return 0;
+    	case 0: printf("EXITING...\n"); 
+       			return;
                break; 
        default: printf("Choice other than 1, 2 and 3"); 
                 break;   
    } 
    main();
-   return 0; 
+   return; 
 }
 
 
 r_friend()
 {
 	FILE *fp;
+	struct stud s;
     fp=fopen("student.txt","w");
-	printf("Enter id ::");
+	printf("\nEnter id ::");
 	scanf("%d",&s.id);
-	printf("\nEnter name ::");
+	printf("Enter name ::");
 	scanf("%s",s.name);
-	printf("\nEnter address ::");
+	printf("Enter address ::");
 	scanf("%s",s.add);
-	printf("\nEnter phone ::");
+	printf("Enter phone ::");
 	scanf("%d",&s.phone);
-	fprintf(fp,"%d\n%s\n%s\n%f",s.id,s.name,s.add,s.phone);
+	fwrite (&s, sizeof(struct stud), 1, fp);
+    if(fwrite != 0)  
+        printf("contents to file written successfully !\n"); 
+    else 
+        printf("error writing file !\n"); 
     printf("\nRecord stored in file...");
     fclose(fp);
     return 0;
@@ -67,21 +74,19 @@ r_friend()
 d_friend()
 {
 	FILE *fptr;
-	char c;
+	struct stud s;
 	fptr = fopen("student.txt", "r"); 
     if (fptr == NULL) 
     { 
         printf("Cannot open file \n"); 
         exit(0); 
     } 
+    while(fread(&s, sizeof(struct stud), 1, fptr)) 
+        {
+		printf ("\nid = %d Name = %s add= %s phone= %d \n", s.id, s.name, s.add,s.phone); 
+	}
   
-    c = fgetc(fptr); 
-    while (c != EOF) 
-    { 
-        printf ("%c", c); 
-        c = fgetc(fptr); 
-    } 
-  
+ 
     fclose(fptr); 
     return 0; 
 }
@@ -89,19 +94,23 @@ d_friend()
 r_book()
 {
 	FILE *fp;
+	struct book b;
     fp=fopen("book.txt","w");
-	printf("Enter id ::");
+	printf("\nEnter id ::");
 	scanf("%d",&b.id);
-	printf("\nEnter title ::");
+	printf("Enter title ::");
 	scanf("%s",b.title);
-	printf("\nEnter author ::");
+	printf("Enter author ::");
 	scanf("%s",b.aut);
-	printf("\nEnter dob ::");
-	scanf("%d",b.dob);
+	printf("Enter dob ::");
+	scanf("%s",b.dob);
 	printf("Enter price ::");
 	scanf("%d",&b.price);
-	fprintf(fp,"%d\n%s\n%s\n%f",b.id,b.title,b.aut,b.dob,b.price);
-    printf("\nRecord stored in file...");
+  	fwrite (&b, sizeof(struct book), 1, fp);
+    if(fwrite != 0)  
+        printf("contents to file written successfully !\n"); 
+    else 
+        printf("error writing file !\n"); 
     fclose(fp);
     return 0;
 }
@@ -109,20 +118,20 @@ r_book()
 d_book()
 {
 	FILE *fptr;
-	char c;
+	struct book bo; 
 	fptr = fopen("book.txt", "r"); 
     if (fptr == NULL) 
     { 
-        printf("Cannot open file \n"); 
-        exit(0); 
+        fprintf(stderr, "\nError opening file\n"); 
+        exit (1);  
     } 
   
-    c = fgetc(fptr); 
-    while (c != EOF) 
-    { 
-        printf ("%c", c); 
-        c = fgetc(fptr); 
-    } 
+
+    while(fread(&bo, sizeof(struct book), 1, fptr)) 
+        {
+		printf ("\nid = %d title = %s author= %s price= %d  Date= %s\n", bo.id, bo.title, bo.aut,bo.price,bo.dob); 
+	}
+
   
     fclose(fptr); 
     return 0; 
