@@ -1,0 +1,129 @@
+#include <stdio.h>
+
+struct stud
+{
+      int id;
+      int phone;
+      char name[20],add[20];
+}s;
+
+struct book
+{
+      int id;
+      int price;
+      char title[20],aut[20],dob[13];
+}b;
+
+void main()
+{
+	int x;
+	printf("Enter x:: \n 1.Register Friend\n 2.Register Book \n 3.Display Friend\n4. Display Book\n\n ");
+	scanf("%d",&x);
+	
+	switch (x) 
+   { 
+       case 1: printf("Register-friend\n");
+				r_friend();
+               break; 
+       case 3: printf("Display-Friend"); 
+				d_friend();
+                break; 
+       case 2: printf("Choice is 3"); 
+       			r_book();
+               break; 
+    	case 4: printf("Choice is 4"); 
+       			d_book();
+               break; 
+               
+    	case 0: printf("EXITING..."); 
+       			return 0;
+               break; 
+       default: printf("Choice other than 1, 2 and 3"); 
+                break;   
+   } 
+   main();
+   return 0; 
+}
+
+
+r_friend()
+{
+	FILE *fp;
+    fp=fopen("student.txt","w");
+	printf("Enter id ::");
+	scanf("%d",&s.id);
+	printf("\nEnter name ::");
+	scanf("%s",s.name);
+	printf("\nEnter address ::");
+	scanf("%s",s.add);
+	printf("\nEnter phone ::");
+	scanf("%d",&s.phone);
+	fprintf(fp,"%d\n%s\n%s\n%f",s.id,s.name,s.add,s.phone);
+    printf("\nRecord stored in file...");
+    fclose(fp);
+    return 0;
+}
+
+d_friend()
+{
+	FILE *fptr;
+	char c;
+	fptr = fopen("student.txt", "r"); 
+    if (fptr == NULL) 
+    { 
+        printf("Cannot open file \n"); 
+        exit(0); 
+    } 
+  
+    c = fgetc(fptr); 
+    while (c != EOF) 
+    { 
+        printf ("%c", c); 
+        c = fgetc(fptr); 
+    } 
+  
+    fclose(fptr); 
+    return 0; 
+}
+
+r_book()
+{
+	FILE *fp;
+    fp=fopen("book.txt","w");
+	printf("Enter id ::");
+	scanf("%d",&b.id);
+	printf("\nEnter title ::");
+	scanf("%s",b.title);
+	printf("\nEnter author ::");
+	scanf("%s",b.aut);
+	printf("\nEnter dob ::");
+	scanf("%d",b.dob);
+	printf("Enter price ::");
+	scanf("%d",&b.price);
+	fprintf(fp,"%d\n%s\n%s\n%f",b.id,b.title,b.aut,b.dob,b.price);
+    printf("\nRecord stored in file...");
+    fclose(fp);
+    return 0;
+}
+
+d_book()
+{
+	FILE *fptr;
+	char c;
+	fptr = fopen("book.txt", "r"); 
+    if (fptr == NULL) 
+    { 
+        printf("Cannot open file \n"); 
+        exit(0); 
+    } 
+  
+    c = fgetc(fptr); 
+    while (c != EOF) 
+    { 
+        printf ("%c", c); 
+        c = fgetc(fptr); 
+    } 
+  
+    fclose(fptr); 
+    return 0; 
+}
